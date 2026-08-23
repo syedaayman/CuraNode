@@ -1,26 +1,114 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-display: var(--font-display, 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif);
+  --font-ui: var(--font-ui, 'Inter', system-ui, -apple-system, sans-serif);
+  --font-body: var(--font-body, 'DM Sans', system-ui, -apple-system, sans-serif);
+
+  --background: #F8FFFD;
+  --foreground: #112F35;
+  --primary: #087F7B;
+  --primary-hover: #066562;
+  --secondary: #19B5B1;
+  --surface: #FFFFFF;
+  --text-muted: #64748B;
+  --border-subtle: #E1F2EE;
 }
 
 @theme inline {
+  --font-display: var(--font-display);
+  --font-ui: var(--font-ui);
+  --font-body: var(--font-body);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-surface: var(--surface);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 1. FONT 1 — PLUS JAKARTA SANS (Headings, Modal Titles, Important Status Headings) */
+.font-display {
+  font-family: var(--font-display), 'Plus Jakarta Sans', system-ui, sans-serif !important;
 }
 
+/* 2. FONT 2 — INTER (Hospital Names, Buttons, Navigation, Badges, Status Indicators, UI Controls) */
+.font-ui {
+  font-family: var(--font-ui), 'Inter', system-ui, sans-serif !important;
+}
+
+/* 3. FONT 3 — DM SANS (Descriptions, Supporting Text, Hospital Addresses, Metadata, Helper Text, AI Explanations) */
+.font-body {
+  font-family: var(--font-body), 'DM Sans', system-ui, sans-serif !important;
+}
+
+/* Base Body Styles */
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #F8FFFD;
+  color: #112F35;
+  font-family: var(--font-body), 'DM Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Role Rules */
+h1, h2, h3, .modal-title, .heading-display {
+  font-family: var(--font-display), 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+button, input, select, textarea, nav, .badge, .btn-text, .ui-label, .hospital-name {
+  font-family: var(--font-ui), 'Inter', system-ui, sans-serif;
+}
+
+p, span, div, .body-text, .address-text, .ai-explanation {
+  font-family: var(--font-body), 'DM Sans', system-ui, sans-serif;
+}
+
+/* Healthcare SaaS Utility Tokens */
+.hospital-name {
+  font-family: var(--font-ui), 'Inter', system-ui, sans-serif !important;
+  font-weight: 600 !important;
+  color: #112F35;
+}
+
+.section-label {
+  font-family: var(--font-ui), 'Inter', system-ui, sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase;
+}
+
+.address-text {
+  font-family: var(--font-body), 'DM Sans', system-ui, sans-serif !important;
+  font-weight: 400 !important;
+  color: #64748B !important;
+}
+
+.ai-explanation {
+  font-family: var(--font-body), 'DM Sans', system-ui, sans-serif !important;
+  font-weight: 400 !important;
+  color: #475569 !important;
+  line-height: 1.5 !important;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #F4FAF9;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
 }
