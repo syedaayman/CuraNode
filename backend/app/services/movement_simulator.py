@@ -90,10 +90,10 @@ class MovementSimulator:
             # --- PHASE 1: AMBULANCE TO PATIENT ---
             logger.info(f"Starting Phase 1 for ambulance {amb_id} (Ambulance -> Patient)")
             
-            # Use a step rate to complete coordinates in ~12 seconds for seamless UI feedback
+            # Use a step rate to complete coordinates in ~120 seconds for demo simulation
             route = initial_route
             num_coords = len(route)
-            steps = 12
+            steps = 120
             step_size = max(1, num_coords // steps)
             
             # Move along the polyline
@@ -106,8 +106,8 @@ class MovementSimulator:
                 remaining_coords = num_coords - idx
                 ratio = remaining_coords / num_coords
                 
-                # Update status details
-                eta_val = max(1, round(12 * ratio)) # simulate ~12 mins scale down
+                # Update status details (2 minutes scale down)
+                eta_val = max(1, int(round(2 * ratio))) if ratio > 0 else 0
                 eta_str = f"{eta_val} mins"
                 
                 await ambulance_service.update_ambulance(amb_id, {

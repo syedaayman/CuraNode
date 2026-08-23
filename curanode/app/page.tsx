@@ -668,29 +668,31 @@ export default function Home() {
       {/* Main Modal Overlay */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#20343B]/40 backdrop-blur-xs p-3 sm:p-4">
-          <div className={`rounded-2xl shadow-xl w-full ${showTracking ? "max-w-5xl max-h-[92vh]" : showResults ? "max-w-2xl max-h-[88vh]" : "max-w-md max-h-[92vh]"} overflow-hidden flex flex-col ${showTracking ? "bg-[#20343B] text-white" : "bg-white text-[#20343B] border border-[#E2E8F0]"} transition-all duration-200`}>
+          <div className={`rounded-2xl shadow-xl w-full ${showTracking ? "max-w-6xl h-[94vh] bg-[#F8FBFA] border border-[#E2E8F0]" : showResults ? "max-w-2xl max-h-[88vh] bg-white text-[#20343B] border border-[#E2E8F0]" : "max-w-md max-h-[92vh] bg-white text-[#20343B] border border-[#E2E8F0]"} overflow-hidden flex flex-col transition-all duration-200`}>
             
-            {/* Modal Header */}
-            <div className={`px-5 py-3 border-b flex justify-between items-center shrink-0 ${showTracking ? "border-[#71858A]/30 bg-[#20343B]" : "border-[#E2E8F0] bg-white"}`}>
-              <div className="flex items-center space-x-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#3F9EAD]"></div>
-                <h3 className="text-base font-bold tracking-tight text-[#20343B]">
-                  {showTracking ? "Emergency Operations Telemetry" : showResults ? "AI Triage & Recommended Facilities" : "Capture Emergency Photo"}
-                </h3>
+            {/* Modal Header (Omitted when showTracking is true so only ONE CuraNode header appears) */}
+            {!showTracking && (
+              <div className={`px-5 py-3 border-b flex justify-between items-center shrink-0 border-[#E2E8F0] bg-white`}>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#3F9EAD]"></div>
+                  <h3 className="text-base font-bold tracking-tight text-[#20343B]">
+                    {showResults ? "AI Triage & Recommended Facilities" : "Capture Emergency Photo"}
+                  </h3>
+                </div>
+                <button 
+                  onClick={handleCloseModal}
+                  className="rounded-full p-1.5 text-[#71858A] hover:text-[#20343B] hover:bg-[#F4FAF9] transition-colors focus:outline-none cursor-pointer"
+                  aria-label="Close modal"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
               </div>
-              <button 
-                onClick={handleCloseModal}
-                className="rounded-full p-1.5 text-[#71858A] hover:text-[#20343B] hover:bg-[#F4FAF9] transition-colors focus:outline-none cursor-pointer"
-                aria-label="Close modal"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
-            </div>
+            )}
 
             {/* Modal Body */}
-            <div className={`flex-1 min-h-0 flex flex-col overflow-hidden ${showResults ? "p-4 sm:p-5" : "p-5 sm:p-6 overflow-y-auto custom-scrollbar"}`}>
+            <div className={`flex-1 min-h-0 flex flex-col overflow-hidden ${showTracking ? "p-0" : showResults ? "p-4 sm:p-5" : "p-5 sm:p-6 overflow-y-auto custom-scrollbar"}`}>
               {showTracking ? (
                 <TrackingContent incidentId={incidentId} hospitalId={selectedHospital?.id} />
               ) : !showResults ? (
