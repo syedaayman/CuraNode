@@ -3,13 +3,122 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* BRAND */
+  --cura-teal: #1FA99B;
+  --cura-teal-dark: #178E84;
+  --cura-teal-light: #48C8B8;
+  --cura-teal-soft: #EAF9F6;
+
+  /* PRIMARY TEXT */
+  --text-primary: #164B52;
+  --text-secondary: #71858A;
+  --text-muted: #8A9A9D;
+  --text-white: #FFFFFF;
+
+  /* BACKGROUNDS */
+  --bg-main: #F7F9FA;
+  --bg-surface: #FFFFFF;
+  --bg-soft: #F7F9FA;
+  --bg-hover: #EAF9F6;
+
+  /* BORDERS */
+  --border-light: #E3ECEF;
+  --border-medium: #D4E2E5;
+  --border-teal: #BCE8ED;
+
+  /* SUCCESS / ACCEPTED */
+  --success: #35A879;
+  --success-dark: #208A60;
+  --success-bg: #EAF8F2;
+
+  /* WARNING / WAITING */
+  --warning: #D39A3A;
+  --warning-dark: #C78320;
+  --warning-bg: #FFF6E5;
+
+  /* EMERGENCY / CRITICAL */
+  --danger: #C85A68;
+  --danger-dark: #A53648;
+  --danger-bg: #FDECEC;
+
+  /* INFO */
+  --info: #4388C7;
+  --info-bg: #EDF5FC;
+
+  /* MAP / LOCATION */
+  --location: #19AFC1;
+  --route: #19AFC1;
+  --patient-marker: #E45B5B;
+  --ambulance-marker: #19AFC1;
+
+  /* SHADOWS */
+  --shadow-sm: 0 2px 8px rgba(23, 43, 58, 0.05);
+  --shadow-md: 0 8px 24px rgba(23, 43, 58, 0.08);
+  --shadow-lg: 0 16px 40px rgba(23, 43, 58, 0.10);
+
+  /* RADIUS */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-manrope), sans-serif;
+  --font-mono: var(--font-mono);
+  --font-serif-display: var(--font-serif-display);
+  --font-serif-body: var(--font-serif-body);
+
+  --color-cura-teal: var(--cura-teal);
+  --color-cura-teal-dark: var(--cura-teal-dark);
+  --color-cura-teal-light: var(--cura-teal-light);
+  --color-cura-teal-soft: var(--cura-teal-soft);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-white: var(--text-white);
+
+  --color-bg-main: var(--bg-main);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-soft: var(--bg-soft);
+  --color-bg-hover: var(--bg-hover);
+
+  --color-border-light: var(--border-light);
+  --color-border-medium: var(--border-medium);
+  --color-border-teal: var(--border-teal);
+
+  --color-success: var(--success);
+  --color-success-dark: var(--success-dark);
+  --color-success-bg: var(--success-bg);
+
+  --color-warning: var(--warning);
+  --color-warning-dark: var(--warning-dark);
+  --color-warning-bg: var(--warning-bg);
+
+  --color-danger: var(--danger);
+  --color-danger-dark: var(--danger-dark);
+  --color-danger-bg: var(--danger-bg);
+
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+
+  --color-location: var(--location);
+  --color-route: var(--route);
+  --color-patient-marker: var(--patient-marker);
+  --color-ambulance-marker: var(--ambulance-marker);
+
+  --shadow-shadow-sm: var(--shadow-sm);
+  --shadow-shadow-md: var(--shadow-md);
+  --shadow-shadow-lg: var(--shadow-lg);
+
+  --radius-radius-sm: var(--radius-sm);
+  --radius-radius-md: var(--radius-md);
+  --radius-radius-lg: var(--radius-lg);
+  --radius-radius-xl: var(--radius-xl);
 }
 
 @media (prefers-color-scheme: dark) {
