@@ -67,35 +67,34 @@ class HospitalService:
             )
 
         try:
-            # Query hospitals with joined resources
-            response = client.table("hospitals").select("*, hospital_resources(*)").execute()
-            hospitals = response.data
-            
-            # Map nested hospital_resources fields back to the top-level keys for backward-compatibility
-            for h in hospitals:
-                resources = h.get("hospital_resources")
-                if resources:
-                    if isinstance(resources, list) and len(resources) > 0:
-                        resources = resources[0]
-                    
-                    if isinstance(resources, dict):
-                        h["has_icu"] = resources.get("has_icu", h.get("has_icu", False))
-                        h["has_trauma_care"] = resources.get("has_trauma_care", h.get("has_trauma_care", False))
-                        h["has_emergency"] = resources.get("has_emergency", h.get("has_emergency", False))
-                        h["available_beds"] = resources.get("available_beds", h.get("available_beds", 0))
-                        h["icu_beds"] = resources.get("icu_beds", h.get("icu_beds", 0))
-                        h["has_ambulance"] = resources.get("has_ambulance", h.get("has_ambulance", False))
-        except Exception as e:
-            logger.warning(f"Joined hospitals-resources query failed: {e}. Falling back to hospitals query...")
+            # Query hospitals table directly first (prevents schema cache relationship warnings)
+            response = client.table("hospitals").select("*").execute()
+            hospitals = response.data or []
+
+            # Optionally merge secondary 'hospital_resources' table entries if present
             try:
-                # Query the 'hospitals' table directly
-                response = client.table("hospitals").select("*").execute()
-                hospitals = response.data
-            except Exception as e_inner:
-                raise HTTPException(
-                    status_code=status.HTTP_502_BAD_GATEWAY,
-                    detail=f"Supabase database query failed: {str(e_inner)}"
-                )
+                res_response = client.table("hospital_resources").select("*").execute()
+                if res_response.data:
+                    resources_by_hospital = {r["hospital_id"]: r for r in res_response.data if "hospital_id" in r}
+                    for h in hospitals:
+                        h_id = h.get("id")
+                        if h_id in resources_by_hospital:
+                            resources = resources_by_hospital[h_id]
+                            h["has_icu"] = resources.get("has_icu", h.get("has_icu", False))
+                            h["has_trauma_care"] = resources.get("has_trauma_care", h.get("has_trauma_care", False))
+                            h["has_emergency"] = resources.get("has_emergency", h.get("has_emergency", False))
+                            h["available_beds"] = resources.get("available_beds", h.get("available_beds", 0))
+                            h["icu_beds"] = resources.get("icu_beds", h.get("icu_beds", 0))
+                            h["has_ambulance"] = resources.get("has_ambulance", h.get("has_ambulance", False))
+            except Exception as e_res:
+                logger.debug(f"Optional hospital_resources merge skipped/failed: {e_res}")
+
+        except Exception as e:
+            logger.error(f"Supabase hospitals query failed: {e}")
+            raise HTTPException(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                detail=f"Supabase database query failed: {str(e)}"
+            )
 
         if not hospitals:
             return []

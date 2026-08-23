@@ -59,15 +59,29 @@ origins = [
     "http://127.0.0.1:3000",
     "http://localhost:3001",
     "http://127.0.0.1:3001",
+    "http://localhost:8001",
+    "http://127.0.0.1:8001",
+    "https://curanode-userside-deploy.vercel.app",
+    "https://curanode.vercel.app",
 ]
+
+# Read optional environment variable CORS_ORIGINS or ALLOWED_ORIGINS (comma-separated)
+env_origins = os.getenv("CORS_ORIGINS") or os.getenv("ALLOWED_ORIGINS")
+if env_origins:
+    for o in env_origins.split(","):
+        o_clean = o.strip()
+        if o_clean and o_clean not in origins:
+            origins.append(o_clean)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1|.*\.vercel\.app|.*onrender\.com|curanode.*)(:\d+)?",
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP verbs (GET, POST, OPTIONS, etc.)
-    allow_headers=["*"],  # Allow all request headers
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=600,
 )
 
 # Register routers
